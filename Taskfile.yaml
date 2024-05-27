@@ -1,0 +1,18 @@
+version: "3"
+
+tasks:
+  prepare:
+    desc: "Prepare the application"
+    cmds:
+      - echo 'Preparing the application...'
+      # - source .venv/bin/activate Doesn't work in Taskfile
+      # - pip install -r requirements.txt
+    silent: true
+
+  start:
+    desc: "Start the application"
+    # deps: [prepare]
+    cmds:
+      - echo 'Starting the application...'
+      - python3 app.py
+    silent: true

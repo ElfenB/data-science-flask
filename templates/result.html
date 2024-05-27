@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+    </style>
+
+    <title>Ergebnis</title>
+  </head>
+
+  <body style="background: #eee">
+    <div id="content" style="display: flex; align-items: center; justify-content: center; height: 100%">
+      <div
+        id="modal"
+        class="shadow-3"
+        style="background: white; border-radius: 5px; width: 30vw; min-height: 30vh; padding: 1rem; position: relative"
+      >
+        <h1>Ergebnis</h1>
+
+        <p>Zu erwartendes Gehalt: <b>{{ result or "Fehler bei der Berechnung" }}</b></p>
+
+        <button class="btn btn-primary" onclick="window.location.href = '/'">Erneut berechnen</button>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.css') }}"></script>
+  </body>
+</html>
