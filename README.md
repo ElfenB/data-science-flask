@@ -32,6 +32,14 @@ pip install -r requirements.txt
 python app.py
 ```
 
+## Deployment
+
+To deploy this project run
+
+```bash
+docker compose up --build -d
+```
+
 ## Authors
 
 - [@ElfenB](https://www.github.com/ElfenB)
