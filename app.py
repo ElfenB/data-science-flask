@@ -8,6 +8,7 @@ from flask import redirect
 from flask import url_for
 from flask.logging import create_logger
 from werkzeug.serving import make_server
+from model import get_salary
 
 # CONFIG
 port = os.environ.get("PORT", 8080)
@@ -33,12 +34,11 @@ def calculate():
     for key, value in data.items():
         logger.debug(f"{key}: {value}")
 
-    # Calculate the result using model (display waiting screen)
-    sleep(2)    # Simulate a long calculation
-    result = "69.420 €"
+    # Calculate the salary
+    salary = get_salary(data)
 
     # Return the result
-    return redirect(url_for("result", result=result))
+    return redirect(url_for("result", result=salary))
 
 
 @app.route("/result", methods=["GET"])

@@ -1,136 +1,233 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Bootstrap CSS -->
-    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
 
-    <script>
-      function displayLoadingSpinner() {
-        document.getElementById('loading-spinner').style.visibility = 'visible';
-      }
-    </script>
+  <!-- Bootstrap CSS -->
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" />
 
-    <style>
-      html,
-      body {
-        height: 100%;
-      }
-    </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+      const submitButton = form.querySelector('button[type="submit"]');
 
-    <title>Gehalt berechnen</title>
-  </head>
+      form.addEventListener('input', () => {
+        submitButton.disabled = !form.checkValidity();
+      });
+    });
 
-  <body style="background: #eee">
-    <div id="content" style="display: flex; align-items: center; justify-content: center; height: 100%">
-      <div
-        id="modal"
-        class="shadow-3"
-        style="background: white; border-radius: 5px; width: 30vw; min-height: 30vh; padding: 1rem; position: relative"
-      >
-        <div id="heading" style="display: flex; justify-content: space-between; align-items: center">
-          <h1>Berechne dein Gehalt</h1>
+    function displayLoadingSpinner() {
+      document.getElementById('loading-spinner').style.visibility = 'visible';
+    }
+  </script>
 
-          <!-- Hidden by default, visible when submitting -->
-          <div style="visibility: hidden" id="loading-spinner">
-            <div class="spinner-border text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+
+  <title>Gehalt berechnen</title>
+</head>
+
+<body style="background: #eee">
+  <div id="content" style="display: flex; align-items: center; justify-content: center; height: 100%">
+    <div id="modal" class="shadow-3"
+      style="background: white; border-radius: 5px; width: 30vw; min-height: 30vh; padding: 1rem; position: relative">
+      <div id="heading" style="display: flex; justify-content: space-between; align-items: center">
+        <h1>Berechne dein Gehalt</h1>
+
+        <!-- Hidden by default, visible when submitting -->
+        <div style="visibility: hidden" id="loading-spinner">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-
-        <form method="post" action="/calculate" style="display: flex; gap: 1rem; flex-direction: column">
-          <select name="Alter" id="age" class="form-select">
-            <option selected>Alter wählen</option>
-            <option value="18-24">18-24</option>
-            <option value="25-34">25-34</option>
-            <option value="35-44">35-44</option>
-            <option value="45-54">45-54</option>
-            <option value="55-64">55-64</option>
-          </select>
-          <select name="Geschlecht" id="gender" class="form-select">
-            <option selected>Geschlecht wählen</option>
-            <option value="male">männlich</option>
-            <option value="female">weiblich</option>
-            <option value="non-binary">nicht-binär</option>
-            <option value="other">andere oder möchte nicht beantworten</option>
-          </select>
-          <select name="Ethnie" id="race" class="form-select">
-            <option selected>Ethnie wählen</option>
-            <option value="Asian or Asian American">Asiatisch oder asiatisch-amerikanisch</option>
-            <option value="Black or African American">Schwarz oder Afroamerikanisch</option>
-            <option value="Hispanic, Latino, or Spanish origin">Hispanisch, Latino oder spanischer Herkunft</option>
-            <option value="Middle Eastern or Northern African">Nahöstlich oder nordafrikanisch</option>
-            <option value="Native American or Alaska Native">Indigene Amerikaner oder Alaska Native</option>
-            <option value="White">Weiß</option>
-            <option value="Another option not listed here or prefer not to answer">
-              Eine andere Option, die hier nicht aufgeführt ist oder ich möchte keine Angabe machen
-            </option>
-          </select>
-          <input class="form-control" type="text" placeholder="Land" />
-          <select name="Bildungsabschluss" id="education" class="form-select">
-            <option selected>Bildungsabschluss wählen</option>
-            <option value="High School">High School</option>
-            <option value="Some College">Some College</option>
-            <option value="College degree">College-Abschluss</option>
-            <option value="Master's Degree">Master-Abschluss</option>
-            <option value="PhD">PhD</option>
-            <option value="Professional Degree (MD, JD, etc.)">Berufsabschluss (MD, JD, etc.)</option>
-          </select>
-          <select name="Erfahrung" id="experience" class="form-select">
-            <option selected>Erfahrung wählen</option>
-            <option value="1 year or less">1 Jahr oder weniger</option>
-            <option value="2 - 4 years">2 - 4 Jahre</option>
-            <option value="5 - 7 years">5 - 7 Jahre</option>
-            <option value="8 - 10 years">8 - 10 Jahre</option>
-            <option value="11 - 20 years">11 - 20 Jahre</option>
-            <option value="21 - 30 years">21 - 30 Jahre</option>
-            <option value="31 - 40 years">31 - 40 Jahre</option>
-            <option value="41 years or more">41 Jahre oder mehr</option>
-          </select>
-          <select name="Branche" id="industry" class="form-select">
-            <option selected>Branche wählen</option>
-            <option value="Accounting, Banking & Finance">Rechnungswesen, Bankwesen & Finanzen</option>
-            <option value="Agriculture or Forestry">Landwirtschaft oder Forstwirtschaft</option>
-            <option value="Art & Design">Kunst & Design</option>
-            <option value="Business or Consulting">Business oder Beratung</option>
-            <option value="Computing or Tech">Informatik oder Technologie</option>
-            <option value="Education (Primary/Secondary)">Bildung (Grundschule/Sekundarstufe)</option>
-            <option value="Education (Higher Education)">Bildung (Hochschulbildung)</option>
-            <option value="Engineering or Manufacturing">Ingenieurwesen oder Fertigung</option>
-            <option value="Entertainment">Unterhaltung</option>
-            <option value="Government and Public Administration">Regierung und öffentliche Verwaltung</option>
-            <option value="Health care">Gesundheitswesen</option>
-            <option value="Hospitality & Events">Gastgewerbe & Veranstaltungen</option>
-            <option value="Insurance">Versicherung</option>
-            <option value="Law">Recht</option>
-            <option value="Law Enforcement & Security">Strafverfolgung & Sicherheit</option>
-            <option value="Leisure, Sport & Tourism">Freizeit, Sport & Tourismus</option>
-            <option value="Marketing, Advertising & PR">Marketing, Werbung & PR</option>
-            <option value="Media & Digital">Medien & Digital</option>
-            <option value="Nonprofits">Gemeinnützige Organisationen</option>
-            <option value="Property or Construction">Immobilien oder Bauwesen</option>
-            <option value="Recruitment or HR">Personalbeschaffung oder Personalwesen</option>
-            <option value="Retail">Einzelhandel</option>
-            <option value="Sales">Vertrieb</option>
-            <option value="Social Work">Sozialarbeit</option>
-            <option value="Transport or Logistics">Transport oder Logistik</option>
-            <option value="Utilities & Telecommunications">Versorgungsunternehmen & Telekommunikation</option>
-            <option value="Other">Andere</option>
-          </select>
-
-          <button type="submit" class="btn btn-primary" onclick="displayLoadingSpinner()">Berechnen</button>
-
-          <!-- Alter, Geschlecht, Ethnie, Land (in dem gearbeitet wird), Bildungsabschluss, Erfahrung und Branche -->
-        </form>
       </div>
-    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="{{ url_for('static', filename='bootstrap.bundle.min.css') }}"></script>
-  </body>
+      <form method="post" action="/calculate" style="display: flex; gap: 1rem; flex-direction: column">
+        <select required name="Alter" id="age" class="form-select">
+          <option value="" selected>Alter wählen</option>
+          <option value="18-24">18-24</option>
+          <option value="25-34">25-34</option>
+          <option value="35-44">35-44</option>
+          <option value="45-54">45-54</option>
+          <option value="55-64">55-64</option>
+        </select>
+        <select required name="Geschlecht" id="gender" class="form-select">
+          <option value="" selected>Geschlecht wählen</option>
+          <option value="male">männlich</option>
+          <option value="female">weiblich</option>
+          <option value="non-binary">nicht-binär</option>
+          <option value="other">andere oder möchte nicht beantworten</option>
+        </select>
+        <!-- <select required name="Ethnie" id="race" class="form-select">
+          <option value="" selected>Ethnie wählen</option>
+          <option value="Asian or Asian American">Asiatisch oder asiatisch-amerikanisch</option>
+          <option value="Black or African American">Schwarz oder Afroamerikanisch</option>
+          <option value="Hispanic, Latino, or Spanish origin">Hispanisch, Latino oder spanischer Herkunft</option>
+          <option value="Middle Eastern or Northern African">Nahöstlich oder nordafrikanisch</option>
+          <option value="Native American or Alaska Native">Indigene Amerikaner oder Alaska Native</option>
+          <option value="White">Weiß</option>
+          <option value="Another option not listed here or prefer not to answer">
+            Eine andere Option, die hier nicht aufgeführt ist oder ich möchte keine Angabe machen
+          </option>
+        </select> -->
+        <select required name="Land" id="country" class="form-select">
+          <option value="" selected>Land wählen</option>
+          <option value="united states">Vereinigte Staaten</option>
+          <option value="united kingdom">Vereinigtes Königreich</option>
+          <option value="canada">Kanada</option>
+          <option value="netherlands">Niederlande</option>
+          <option value="australia">Australien</option>
+          <option value="spain">Spanien</option>
+          <option value="france">Frankreich</option>
+          <option value="germany">Deutschland</option>
+          <option value="ireland">Irland</option>
+          <option value="denmark">Dänemark</option>
+          <option value="switzerland">Schweiz</option>
+          <option value="bermuda">Bermuda</option>
+          <option value="mexico">Mexiko</option>
+          <option value="south africa">Südafrika</option>
+          <option value="belgium">Belgien</option>
+          <option value="sweden">Schweden</option>
+          <option value="hong kong">Hongkong</option>
+          <option value="kuwait">Kuwait</option>
+          <option value="sri lanka">Sri Lanka</option>
+          <option value="greece">Griechenland</option>
+          <option value="austria">Österreich</option>
+          <option value="luxembourg">Luxemburg</option>
+          <option value="new zealand">Neuseeland</option>
+          <option value="latvia">Lettland</option>
+          <option value="finland">Finnland</option>
+          <option value="puerto rico">Puerto Rico</option>
+          <option value="rwanda">Ruanda</option>
+          <option value="united arab emirates">Vereinigte Arabische Emirate</option>
+          <option value="romania">Rumänien</option>
+          <option value="serbia">Serbien</option>
+          <option value="russia">Russland</option>
+          <option value="afghanistan">Afghanistan</option>
+          <option value="japan">Japan</option>
+          <option value="china">China</option>
+          <option value="cambodia">Kambodscha</option>
+          <option value="vietnam">Vietnam</option>
+          <option value="bangladesh">Bangladesch</option>
+          <option value="israel">Israel</option>
+          <option value="lithuania">Litauen</option>
+          <option value="eritrea">Eritrea</option>
+          <option value="italy">Italien</option>
+          <option value="slovenia">Slowenien</option>
+          <option value="somalia">Somalia</option>
+          <option value="norway">Norwegen</option>
+          <option value="malaysia">Malaysia</option>
+          <option value="slovakia">Slowakei</option>
+          <option value="portugal">Portugal</option>
+          <option value="india">Indien</option>
+          <option value="sierra leone">Sierra Leone</option>
+          <option value="england">England</option>
+          <option value="singapore">Singapur</option>
+          <option value="the bahamas">Die Bahamas</option>
+          <option value="costa rica">Costa Rica</option>
+          <option value="argentina">Argentinien</option>
+          <option value="chile">Chile</option>
+          <option value="qatar">Katar</option>
+          <option value="hungary">Ungarn</option>
+          <option value="brazil">Brasilien</option>
+          <option value="uruguay">Uruguay</option>
+          <option value="uganda">Uganda</option>
+          <option value="philippines">Philippinen</option>
+          <option value="poland">Polen</option>
+          <option value="malta">Malta</option>
+          <option value="bulgaria">Bulgarien</option>
+          <option value="estonia">Estland</option>
+          <option value="morocco">Marokko</option>
+          <option value="ecuador">Ecuador</option>
+          <option value="zimbabwe">Simbabwe</option>
+          <option value="ghana">Ghana</option>
+          <option value="croatia">Kroatien</option>
+          <option value="south korea">Südkorea</option>
+          <option value="thailand">Thailand</option>
+          <option value="isle of man">Isle of Man</option>
+          <option value="jamaica">Jamaika</option>
+          <option value="kenya">Kenia</option>
+          <option value="jordan">Jordanien</option>
+        </select>
+        <select required name="Bildungsabschluss" id="education" class="form-select">
+          <option value="" selected>Bildungsabschluss wählen</option>
+          <option value="High School">High School</option>
+          <option value="Some college">Some College</option>
+          <option value="College degree">College-Abschluss</option>
+          <option value="Master's degree">Master-Abschluss</option>
+          <option value="PhD">PhD</option>
+          <option value="Professional degree (MD, JD, etc.)">Berufsabschluss (MD, JD, etc.)</option>
+        </select>
+        <select required name="Erfahrung" id="experience_overall" class="form-select">
+          <option value="" selected>Erfahrung wählen</option>
+          <option value="1">1 Jahr oder weniger</option>
+          <option value="2-4">2 - 4 Jahre</option>
+          <option value="5-7">5 - 7 Jahre</option>
+          <option value="8-10">8 - 10 Jahre</option>
+          <option value="11-20">11 - 20 Jahre</option>
+          <option value="21-30">21 - 30 Jahre</option>
+          <option value="31-40">31 - 40 Jahre</option>
+          <option value="41">41 Jahre oder mehr</option>
+        </select>
+        <select required name="Erfahrung im Berufsfeld" id="experience_field" class="form-select">
+          <option value="" selected>Erfahrung im Berufsfeld wählen</option>
+          <option value="1">1 Jahr oder weniger</option>
+          <option value="2-4">2 - 4 Jahre</option>
+          <option value="5-7">5 - 7 Jahre</option>
+          <option value="8-10">8 - 10 Jahre</option>
+          <option value="11-20">11 - 20 Jahre</option>
+          <option value="21-30">21 - 30 Jahre</option>
+          <option value="31-40">31 - 40 Jahre</option>
+          <option value="41">41 Jahre oder mehr</option>
+        </select>
+        <select required name="Branche" id="industry" class="form-select">
+          <option value="" selected>Branche wählen</option>
+          <option value="Education (Higher Education)">Education (Higher Education)</option>
+          <option value="Computing or Tech">Computing or Tech</option>
+          <option value="Accounting, Banking & Finance">Accounting, Banking & Finance</option>
+          <option value="Nonprofits">Nonprofits</option>
+          <option value="Other">Other</option>
+          <option value="Education (Primary/Secondary)">Education (Primary/Secondary)</option>
+          <option value="Health care">Health care</option>
+          <option value="Utilities & Telecommunications">Utilities & Telecommunications</option>
+          <option value="Business or Consulting">Business or Consulting</option>
+          <option value="Art & Design">Art & Design</option>
+          <option value="Government and Public Administration">Government and Public Administration</option>
+          <option value="Law">Law</option>
+          <option value="Engineering or Manufacturing">Engineering or Manufacturing</option>
+          <option value="Media & Digital">Media & Digital</option>
+          <option value="Marketing, Advertising & PR">Marketing, Advertising & PR</option>
+          <option value="Retail">Retail</option>
+          <option value="Insurance">Insurance</option>
+          <option value="Sales">Sales</option>
+          <option value="Property or Construction">Property or Construction</option>
+          <option value="Hospitality & Events">Hospitality & Events</option>
+          <option value="Transport or Logistics">Transport or Logistics</option>
+          <option value="Social Work">Social Work</option>
+          <option value="Recruitment or HR">Recruitment or HR</option>
+          <option value="Agriculture or Forestry">Agriculture or Forestry</option>
+          <option value="Law Enforcement & Security">Law Enforcement & Security</option>
+          <option value="Leisure, Sport & Tourism">Leisure, Sport & Tourism</option>
+          <option value="Entertainment">Entertainment</option>
+        </select>
+
+        <button disabled type="submit" class="btn btn-primary" onclick="displayLoadingSpinner()">Berechnen</button>
+
+        <!-- Alter, Geschlecht, Ethnie, Land (in dem gearbeitet wird), Bildungsabschluss, Erfahrung und Branche -->
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="{{ url_for('static', filename='bootstrap.bundle.min.css') }}"></script>
+</body>
+
 </html>

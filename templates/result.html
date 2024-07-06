@@ -28,7 +28,7 @@
       >
         <h1>Ergebnis</h1>
 
-        <p>Zu erwartendes Gehalt: <b>{{ result or "Fehler bei der Berechnung" }}</b></p>
+        <p>Zu erwartendes Gehalt: <b>{{ result + " €" or "Fehler bei der Berechnung" }}</b></p>
 
         <button class="btn btn-primary" onclick="window.location.href = '/'">Erneut berechnen</button>
       </div>
