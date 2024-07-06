@@ -9,12 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" />
 
-    <style>
-      html,
-      body {
-        height: 100%;
-      }
-    </style>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
 
     <title>Ergebnis</title>
   </head>
@@ -24,7 +19,7 @@
       <div
         id="modal"
         class="shadow-3"
-        style="background: white; border-radius: 5px; width: 30vw; min-height: 30vh; padding: 1rem; position: relative"
+        style="background: white; border-radius: 5px; min-height: 30vh; padding: 1rem; position: relative"
       >
         <h1>Ergebnis</h1>
 

@@ -10,6 +10,8 @@
   <!-- Bootstrap CSS -->
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" />
 
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.querySelector('form');
@@ -25,20 +27,13 @@
     }
   </script>
 
-  <style>
-    html,
-    body {
-      height: 100%;
-    }
-  </style>
-
   <title>Gehalt berechnen</title>
 </head>
 
 <body style="background: #eee">
   <div id="content" style="display: flex; align-items: center; justify-content: center; height: 100%">
     <div id="modal" class="shadow-3"
-      style="background: white; border-radius: 5px; width: 30vw; min-height: 30vh; padding: 1rem; position: relative">
+      style="background: white; border-radius: 5px; min-height: 30vh; padding: 1rem; position: relative">
       <div id="heading" style="display: flex; justify-content: space-between; align-items: center">
         <h1>Berechne dein Gehalt</h1>
 

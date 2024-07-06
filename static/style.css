@@ -1,0 +1,14 @@
+html,
+body {
+    height: 100%;
+}
+
+#modal {
+    width: 30vw;
+}
+
+@media (max-width: 768px) {
+    #modal {
+        width: 90vw;
+    }
+}
