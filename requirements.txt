@@ -17,5 +17,5 @@ six==1.16.0
 smmap==5.0.1
 threadpoolctl==3.5.0
 tzdata==2024.1
-Werkzeug==3.0.3
+Werkzeug==3.0.6
 xgboost==2.1.0
